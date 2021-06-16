@@ -1,0 +1,396 @@
+﻿body, html {
+    width:100%;
+    height:100%;
+    margin:0;
+    padding:0;
+}
+body {
+	font-family:Verdana;
+	background-color:black;
+}
+
+
+#divMenu {
+	background-image:url("../images/mathematics.jpg");
+	width:100%;
+    height:100%;
+}
+
+
+#divCanvas{
+    overflow:hidden;
+	/*color:black;*/
+	background-color:black;
+}
+canvas {
+    position:absolute;
+	background-color:black;
+}
+
+#MenuInferior {
+	position:absolute;
+	height:80px;
+	width:100%;
+	bottom:0;
+	background-color:white;
+}
+.Funcion {
+	text-align: left;
+	width:110px;
+	font-size:1.5em;
+	padding-left:5px;
+}
+.tblInferior{
+	height:80px;
+}
+.tdFormula {	
+	width:100%;
+}
+.Numerador {
+	font-size:1.3em;
+
+}
+.Ellipsis {
+	overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+.DivEditar {
+	white-space:nowrap;
+	padding:5px;
+}
+.FuncionGuardar {
+	padding-left:5px;
+	padding-right:5px;
+	width:60px;
+}
+.txtNumerador {
+	margin-bottom:5px;
+}
+.Division {
+	height:1px; 
+	background: #000;
+	margin-top:3px;
+}
+.Denominador {
+	font-size:1.3em;
+}
+.BotonMenu {
+	height:80px;
+}
+.btnMenu {
+	padding-right:8px;
+}
+.imgBoton {
+	width:54px;
+	height:54px;
+	margin-top:13px;
+	margin-left:8px;
+}
+
+#MenuNavegacion {
+	position:absolute;
+	height:80px;
+	width:100%;
+	bottom:0;
+	background-color:white;
+}
+#NavegaElegir {
+	margin-left: 8px;
+}
+#ElegirFuncion{
+	font-size:1.6em;
+	/*-webkit-appearance:none;*/
+	width:90px;
+}
+
+
+#divComunidad {
+	background-color: white;
+	height:100%
+}
+
+
+#divCrea {
+	background-color: white;
+	height:100%
+}
+.Titulo {
+	font-size: 2em;
+}
+.CrearMenu {
+	padding-right:10px;
+}
+.CrearFuncion {
+	text-align: left;
+	width:60px;
+	font-size:1.5em;
+	padding-left:5px;
+}
+.CrearTabla {
+	width:100%;
+}
+.CrearAnchoFormula {
+	width:100%;
+}
+.CrearNumerador {
+	font-size:1.3em;
+}
+.CrearDenominador {
+	font-size:1.3em;
+}
+
+
+#divExplicacion {
+	background-color: white;
+	padding-left:3px;
+}
+/*
+.ExplicacionPagina {
+	overflow-x:hidden;
+	overflow-y:auto;
+	width: 100%;
+	height: 100%;
+}
+*/
+.ExplicacionTitulo {
+	font-size:1.5em;
+	color:#0000A0;
+	margin-bottom:1em;
+}
+.ExplicacionApartado {
+	font-size:1.2em;
+	color:#6060E0;
+}
+.ExplicacionBloque {
+	margin-bottom:1em;
+}
+.ExplicacionNota {
+	font-style:italic;
+}
+
+#ExplicacionBotones {
+	text-align:center;
+	margin:0 auto;
+	max-width:300px;
+}
+.btnExplicacion {
+	width:60px;
+	height:60px;
+}
+#ExplicacionAtras {
+	float:left;
+}
+#ExplicacionVolver {
+	margin:0 auto;
+	display:inline-block;
+}
+#ExplicacionAdelante {
+	float:right
+}
+
+
+
+/*si no soporta media queries ponemos aspecto pantalla pc*/
+#Titulo {
+	width:80%;
+	padding-top:0%;
+	margin:0 auto;
+	margin-bottom:5%;
+	display:block;
+}
+#TituloVertical{
+	width:80%;
+	padding-top:0%;
+	margin:0 auto;
+	display:none;
+}
+.btn {
+	font-size:1.2em;
+	line-height:2.5em;
+	display:inline;
+	margin-left:10%;
+	margin-right:10%;
+	margin-bottom:5%;
+	width:80%;
+}
+.ExplicacionImagen {
+	float:left;
+	padding-right:1em;
+	padding-left:1em;
+}
+#ExplicacionImagen1 {
+	width:238px;
+	height:238px;
+}
+#ExplicacionImagen2 {
+	width:500px;
+	height:392px;
+}
+#ExplicacionImagen3 {
+	width:500px;
+	height:269px;
+}
+#ExplicacionImagen4 {
+	width:370px;
+	height:320px;
+}
+#ExplicacionImagen5 {
+	width:272px;
+	height:244px;
+}
+
+/*media queries PC horizontal*/
+@media screen and (min-width: 700px) {
+	#Titulo {
+		width:80%;
+		padding-top:0%;
+		margin:0 auto;
+		margin-bottom:5%;
+		display:block;
+	}
+	#TituloVertical{
+		width:80%;
+		padding-top:0%;
+		margin:0 auto;
+		display:none;
+	}
+	.btn {
+		font-size:1.2em;
+		line-height:2.5em;
+		display:inline;
+		margin-left:15%;
+		margin-right:15%;
+		margin-bottom:6%;
+		width:70%;
+	}
+	.ExplicacionImagen {
+		float:left;
+		padding-right:1em;
+		padding-left:1em;
+	}
+	#ExplicacionImagen1 {
+		width:238px;
+		height:238px;
+	}
+	#ExplicacionImagen2 {
+		width:500px;
+		height:392px;
+	}
+	#ExplicacionImagen3 {
+		width:500px;
+		height:269px;
+	}
+	#ExplicacionImagen4 {
+		width:370px;
+		height:320px;
+	}
+	#ExplicacionImagen5 {
+		width:272px;
+		height:244px;
+	}
+}
+
+/*media queries movil horizontal*/
+@media screen and (min-width: 450px) and (max-width: 700px) {
+	#Titulo {
+		width:80%;
+		padding-top:0%;
+		margin:0 auto;
+		display:block;
+	}
+	#TituloVertical{
+		width:80%;
+		padding-top:0%;
+		margin:0 auto;
+		display:none;
+	}
+	/*botones del menu*/
+	.btn {
+		font-size:1.2em;
+		line-height:2em;
+		display:inline;
+		margin-left:10%;
+		margin-right:10%;
+		margin-bottom:3%;
+		width:80%;
+		font-size:22px;
+	}
+	
+	.ExplicacionImagen {
+		float:left;
+		padding-left:0;
+		padding-right:1em;
+	}
+	#ExplicacionImagen1 {
+		width:200px;
+		height:200px;
+	}
+	#ExplicacionImagen2 {
+		width:300px;
+		height:235px;
+	}
+	#ExplicacionImagen3 {
+		width:300px;
+		height:161px;
+	}
+	#ExplicacionImagen4{
+		width:300px;
+		height:259px;
+	}
+	#ExplicacionImagen5 {
+		width:272px;
+		height:244px;
+	}	
+}
+
+/*media queries movil vertical*/
+@media screen and (max-width: 450px) {
+	#Titulo {
+		width:80%;
+		padding-top:0%;
+		margin:0 auto;
+		display:none;
+	}
+	#TituloVertical{
+		width:90%;
+		padding-top:5%;
+		margin:0 auto;
+		margin-bottom:12%;
+		display:block;
+	}
+	.btn {
+		font-size:1.1em;
+		line-height:2.5em;
+		display:inline;
+		margin-left:5%;
+		margin-right:5%;
+		margin-bottom:12%;
+		width:90%;
+	}
+	.ExplicacionImagen {
+		float:left;
+		padding-left:0;
+		padding-right:1em;
+	}
+	#ExplicacionImagen1 {
+		width:160px;
+		height:160px;
+	}	
+	#ExplicacionImagen2 {
+		width:200px;
+		height:157px;
+	}
+	#ExplicacionImagen3 {
+		width:200px;
+		height:108px;
+	}
+	#ExplicacionImagen4{
+		width:250px;
+		height:216px;
+	}
+	#ExplicacionImagen5 {
+		width:200px;
+		height:179px;
+	}		
+}

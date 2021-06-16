@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <title>Graficas matematicas</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	
+    <link rel="stylesheet" href="css/estilo.css" type="text/css">
+	
+	<script src="scripts/jquery-3.1.1.min.js" type="text/javascript"></script>
+	<script src="scripts/vue.js" type="text/javascript"></script>
+	<script src="scripts/palette.js" type="text/javascript"></script>
+	<script src="scripts/AnimationFrame.js" type="text/javascript"></script>
+	<script src="scripts/funciones.js?ver=1" type="text/javascript"></script>
+	<script src="scripts/menu.js?ver=1" type="text/javascript"></script>
+	<script src="scripts/imagen.js?ver=1" type="text/javascript"></script>
+</head>
+
+<body>
+
+	<div id="divMenu">
+		<img id="Titulo" src="images/Titulo2.png"/>
+		<img id="TituloVertical" src="images/Titulo2_vertical.png"/>
+		<button id="MenuGraficas" class="btn">Ver las gr&aacute;ficas</button> 
+		<button id="MenuComunidad" class="btn">Gr&aacute;ficas hechas por la comunidad</button> 
+		<button id="MenuCrea" class="btn">Crea y comparte tu gr&aacute;fica</button> 
+		<button id="MenuExplicacion" class="btn">Explicaciones matem&aacute;ticas</button> 
+	</div>
+
+	<div id="divCanvas" style="display:none">
+		<canvas id="Canvas">Su navegador no soporta HTML5</canvas>
+
+		<div id="MenuInferior">
+			<table cellpadding="0" cellspacing="0" class="tblInferior">
+				<tr>
+					<td>
+						<div class="Funcion">fn {{menuFuncion}} = </div>
+					</td>
+					<td class="tdFormula">
+						<table cellpadding="0" cellspacing="0">
+							<tr>
+								<td id="Numerador" class="Numerador">
+									<div id="MostrarNumerador" class="Ellipsis anchoFormula">{{numerador}}</div>
+									<div id="EditarNumerador" class="DivEditar" style="display:none">
+										<input type="text" id="txtNumerador" v-model="numerador" class="txtNumerador anchoInputFormula"/>
+										<button id="GuardarNumerador" class="FuncionGuardar">Guardar</button>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td class="Division"></td>
+							</tr>
+							<tr>
+								<td id="Denominador" class="Denominador">
+									<div id="MostrarDenominador" class="Ellipsis anchoFormula">{{denominador}}</div>
+									<div id="EditarDenominador" class="DivEditar" style="display:none">
+										<input type="text" id="txtDenominador" v-model="denominador" class="anchoInputFormula"/>
+										<button id="GuardarDenominador" class="FuncionGuardar">Guardar</button>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</td>
+					<td>
+						<div id="PonerMenuNavegacion" class="BotonMenu">
+							<img src="images/BotonMenu.png" class="imgBoton btnMenu"/>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="MenuNavegacion" style="display:none">
+			<table cellpadding="0" cellspacing="0" class="tblInferior">
+				<tr>
+					<td>
+						<div id="NavegaIzquierda" class="BotonMenu">
+							<img src="images/BotonIzquierda.png" class="imgBoton"/>
+						</div>
+					</td>
+					<td>
+						<div id="NavegaElegir">
+							<select id="ElegirFuncion" v-model="selected">
+								<option v-for="option in options" v-bind:value="option.value">
+									{{ option.text }}
+								</option>
+							</select>
+							<!--<span>Selected: {{ selected }}</span>-->
+						</div>
+					</td>
+					<td>
+						<div id="NavegaDerecha" class="BotonMenu">
+							<img src="images/BotonDerecha.png" class="imgBoton"/>
+						</div>
+					</td>
+					<td>
+						<div class="anchoElegir"></div>
+					</td>
+					<td>
+						<div id="NavegaVolver" class="BotonMenu">
+							<img src="images/BotonVolver.png" class="imgBoton"/>
+						</div>
+					</td>
+					<td>
+						<div id="NavegaFuncion" class="BotonMenu">
+							<img src="images/BotonFn.png" class="imgBoton"/>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<div id="divComunidad" style="display:none">
+		<div>Comunidad</div>
+		<button id="ComunidadVolver" class="btnVolver">Volver</button> 
+	</div>
+
+	<div id="divCrea" style="display:none">
+		<div class="Titulo">Crear nueva funci&oacute;n</div><br/>
+		<div id="CrearMenu" class="CrearMenu">
+			<table cellpadding="0" cellspacing="0">
+				<tr>
+					<td>
+						<div class="CrearFuncion">fn = </div>
+					</td>
+					<td class="tdFormula">
+						<table cellpadding="0" cellspacing="0" class="CrearTabla">
+							<tr>
+								<td id="CrearNumerador" class="CrearNumerador">
+									<div id="CrearMostrarNumerador" class="CrearAnchoFormula" style="display:none">{{numerador}}</div>
+									<div id="CrearEditarNumerador">
+										<input type="text" v-model="numerador" class="txtNumerador CrearAnchoFormula"/>
+										<!--<button id="CrearGuardarNumerador">Guardar</button>-->
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td class="Division"></td>
+							</tr>
+							<tr>
+								<td id="CrearDenominador" class="CrearDenominador">
+									<div id="CrearMostrarDenominador" class="CrearAnchoFormula">{{denominador}}</div>
+									<div id="CrearEditarDenominador" style="display:none">
+										<input type="text" v-model="denominador" class="CrearAnchoFormula"/>
+										<!--<button id="CrearGuardarDenominador">Guardar</button>-->
+									</div>
+								</td>
+							</tr>
+						</table>
+					</td>
+					<!--<td style="width:10px">&nbsp;</td>-->
+				</tr>
+			</table>
+		</div>
+		<br/>
+		<button id="CrearVolver" class="btnVolver">Volver</button>
+		<button id="CrearGuardar" class="btnVolver">Guardar</button>
+	</div>
+	
+	<div id="divExplicacion" style="display:none">
+		<div id="ExplicacionPagina1" class="ExplicacionPagina">
+			<div class="ExplicacionTitulo">Explicaciones matem&aacute;ticas</div>
+			<div class="ExplicacionApartado">Sistemas de coordenadas</div>
+			<div class="ExplicacionBloque">
+				<p>En geometr&iacute;a, un sistema de coordenadas es un sistema que utiliza uno o m&aacute;s n&uacute;meros (coordenadas) para determinar un&iacute;vocamente la posici&oacute;n de un punto o de otro objeto geom&eacute;trico.</p>
+				<p>El orden en que se escriben las coordenadas es significativo y a veces se las identifica por su posici&oacute;n en una tupla ordenada (x,y). Tambi&eacute;n se las puede representar con letras, como por ejemplo "la coordenada-x".</p>
+				<p>El estudio de los sistemas de coordenadas es objeto de la <strong>geometr&iacute;a anal&iacute;tica.</strong></p>
+			</div>
+			<div class="ExplicacionApartado">Sistema de coordenadas cartesianas</div>
+			<div class="ExplicacionBloque">
+				<p>En un espacio eucl&iacute;deo un sistema de coordenadas cartesianas se define por dos o tres ejes ortogonales igualmente escalados, dependiendo de si es un sistema bidimensional o tridimensional.</p>
+				<p>Las coordenadas cartesianas o coordenadas rectangulares son un tipo de coordenadas ortogonales usadas en espacios eucl&iacute;deos, para la representaci&oacute;n gr&aacute;fica de una funci&oacute;n, caracterizadas porque usa como referencia ejes ortogonales entre s&iacute; que se cortan en un punto origen.</p>
+				<p>El origen de coordenadas es el punto de referencia de un sistema de coordenadas. En este punto, el valor de todas las coordenadas del sistema es nulo. Por ejemplo, (0,0) en dos dimensiones.</p>
+				<p>Si el sistema es bidimensional, se denomina plano cartesiano. La denominaci&oacute;n de 'cartesiano' se introdujo en honor de <strong>Ren&eacute; Descartes</strong>, quien lo utiliz&oacute; de manera formal por primera vez.</p>
+				<div><img src="images/cartesianas.png" id="ExplicacionImagen1" class="ExplicacionImagen"/><div class="ExplicacionNota">Tres ejemplos de coordenadas asignadas a tres puntos diferentes (verde, rojo y azul), sus proyecciones ortogonales sobre los ejes constituyen sus coordenadas cartesianas, y el origen de coordenadas (0,0) en violeta.</div></div>
+				<div style="clear:both"></div>
+			</div>
+			<div class="ExplicacionApartado">Otros sistemas de coordenadas</div>
+			<div class="ExplicacionBloque">
+				<ul><li><p>El sistema de coordenadas <strong>polares</strong> es un sistema de coordenadas bidimensional en el cual cada punto o posici&oacute;n del plano se determina por un &aacute;ngulo y una distancia. Todo punto P del plano corresponde a un par ordenado (r, &theta;) donde r es la distancia de P al origen y &theta; es el &aacute;ngulo formado entre el eje polar y la recta va del origen a P.</p></li>
+				<li><p>El sistema de coordenadas <strong>cil&iacute;ndricas</strong> se usa para representar los puntos de un espacio eucl&iacute;deo tridimensional. La primera coordenada es la distancia existente entre el eje Z y el punto, la segunda es el &aacute;ngulo que forman el eje X y la recta que pasa por ambos puntos, mientras que la tercera es la coordenada Z que determina la altura del cilindro.</p></li>
+				<li><p>El sistema de coordenadas <strong>esf&eacute;ricas</strong> se usan en espacios euclidianos tridimensionales. Este sistema de coordenadas esf&eacute;ricas est&aacute; formado por tres ejes mutuamente ortogonales que se cortan en el origen. La primera coordenada es la distancia entre el origen y el punto, siendo las otras dos los &aacute;ngulos que es necesario girar para alcanzar la posici&oacute;n del punto.</p></li>
+				<li><p>El sistema de coordenadas <strong>cartogr&aacute;ficas</strong>, subtipo de las coordenadas esf&eacute;ricas, se usa para definir puntos sobre una superficie esf&eacute;rica. Hay varios tipos de coordenadas geogr&aacute;ficas. El sistema m&aacute;s cl&aacute;sico y conocido es el que emplea la latitud y la longitud. Tambi&eacute;n se puede definir las coordenadas de un punto de la superficie de la Tierra utilizando una proyecci&oacute;n cartogr&aacute;fica, como el sistema de coordenadas UTM.</p></li></ul>
+			</div>
+		</div>
+		
+		<div id="ExplicacionPagina2" class="ExplicacionPagina" style="display:none">
+			<div class="ExplicacionApartado">Fractales</div>
+			<div class="ExplicacionBloque">
+				<p>Un fractal es un objeto geom&eacute;trico cuya estructura b&aacute;sica, fragmentada o aparentemente irregular, se repite a diferentes escalas. El t&eacute;rmino fue propuesto por el matem&aacute;tico <strong>Beno&icirc;t Mandelbrot</strong> en 1975 y deriva del lat&iacute;n fractus, que significa quebrado o fracturado.</p>
+				<p>Analicemos el caso particular de funciones polin&oacute;micas de grado mayor que uno. Al aplicar sucesivas veces una funci&oacute;n polin&oacute;mica es muy posible que el resultado tienda a infinito. Al conjunto de valores que no escapan al infinito mediante esta operaci&oacute;n se le denomina conjunto de Julia relleno, y a su frontera, simplemente <strong>conjunto de Julia</strong>.</p>
+				<p>Estos conjuntos se representan mediante un algoritmo de tiempo de escape, en que cada pixel se colorea seg&uacute;n el n&uacute;mero de iteraciones necesarias para escapar. Suele usarse un color especial, a menudo el negro, para representar los puntos que no han escapado tras un n&uacute;mero grande y prefijado de iteraciones.</p>
+			</div>
+			<div class="ExplicacionApartado">Generaci&oacute;n por algoritmos recursivos</div>
+			<div class="ExplicacionBloque">
+				<p>Podemos destacar tres t&eacute;cnicas comunes para generar fractales:</p>
+				<ul><li><p>Sistemas de <strong>funciones iteradas</strong> (IFS). Unos conjuntos se reemplazan recursivamente por su imagen bajo un sistema de aplicaciones: el conjunto de Cantor, la alfombra de Sierpinski, el tri&aacute;ngulo de Sierpinski, la curva de Peano, la curva del drag&oacute;n, el copo de nieve de Koch o la Esponja de Menger, son algunos ejemplos.</p></li>
+				<li><p>Fractales de <strong>algoritmos de Escape</strong>, definidos por una relaci&oacute;n de recurrencia en cada punto del espacio (por ejemplo, el plano complejo): el conjunto de Mandelbrot, conjunto de Julia, y el fractal de Lyapunov.</p></li>
+				<li><p>Fractales <strong>aleatorios</strong>, generados por procesos estoc&aacute;sticos, no deterministas: el movimiento browniano,el vuelo de L&eacute;vy, los paisajes fractales o los &aacute;rboles brownianos. Estos &uacute;ltimos son producidos por procesos de agregaci&oacute;n por difusi&oacute;n limitada.</p></li></ul>
+				<p>Normalmente un fractal se construye mediante una f&oacute;rmula o funci&oacute;n que se va iterando un n&uacute;mero arbitrario de veces.</p>
+				<p>El conjunto de Mandelbrot utiliza la f&oacute;rmula Z = Z^2 + C, donde Z y C son n&uacute;meros complejos, el valor de C corresponder&aacute; a las <strong>coordenadas cartesianas</strong> de un punto del plano, siendo su componente real el valor de la coordenada X y su componente imaginario el valor de la coordenada Y.</p>
+				<p>Tan importante es la elecci&oacute;n de la formula como la elecci&oacute;n del m&eacute;todo de coloreado de los resultados. Existen multitud de t&eacute;cnicas de coloreado como el algoritmo de tiempo de escape, por convergencia a soluciones de una ecuaci&oacute;n, etc.</p>
+				<div><img src="images/Mandelbrot.jpg" id="ExplicacionImagen2" class="ExplicacionImagen"/><div class="ExplicacionNota">Fractal del tipo Mandelbrot: Z = Z^2 + C (Conjunto de Mandelbrot).</div></div>
+				<div style="clear:both"></div>
+			</div>
+			<div class="ExplicacionApartado">Definici&oacute;n de fractal</div>
+			<div class="ExplicacionBloque">
+				<p>Hoy en d&iacute;a no existe una definici&oacute;n oficial que exprese eficientemente qu&eacute; es un fractal, ya que todas las que se han propuesto dejan fuera alg&uacute;n objeto considerado como tal. En cambio, s&iacute; se han enumerado sus propiedades, por lo que podemos considerar fractal a un objeto que cumple varias de ellas:</p>
+				<ul><li><p>Es un objeto de longitud y complejidad infinita dentro de un &aacute;rea finita.</p></li>
+				<li><p>Se genera mediante una funci&oacute;n matem&aacute;tica sencilla.</p></li>
+				<li><p>Presenta auto semejanza en diferentes escalas.</p></li>
+				<li><p>Su dimensi&oacute;n no es entera.</p></li></ul>
+				<p>Com&uacute;nmente, en el lenguaje coloquial, se conoce como fractal a las im&aacute;genes obtenidas mediante la representaci&oacute;n gr&aacute;fica de una funci&oacute;n matem&aacute;tica iterada.</p>
+			</div>
+		</div>
+		
+		<div id="ExplicacionPagina3" class="ExplicacionPagina" style="display:none">
+			<div class="ExplicacionApartado">Las gr&aacute;ficas de la aplicaci&oacute;n</div>
+			<div class="ExplicacionBloque">
+				<p>Esta aplicaci&oacute;n utiliza el sistema de coordenadas cartesianas para representar gr&aacute;ficamenten las funciones matem&aacute;ticas. El origen es la coordenada (0,0) que se situa siempre en el centro de la pantalla. Pero en lugar de mostrar s&oacute;lo los puntos que componen la funci&oacute;n, como se suele hacer en geometr&iacute;a cl&aacute;sica, la aplicaci&oacute;n representa la funci&oacute;n <strong>en todos los puntos del sistema de coordenadas</strong>, con colores diferentes seg&uacute;n resulte el c&aacute;lculo de la funcion.</p>
+				<p>El c&aacute;lculo de la funci&oacute;n se hace tambi&eacute;n de forma diferente. Tomemos por ejemplo la funci&oacute;n de la circunferencia de radio r: r^2 = x^2 + y^2. El signo ^ significa elevado a. En la <strong>representaci&oacute;n cl&aacute;sica</strong> de la funci&oacute;n, se despeja la coordenada y, F(x) = sqrt(x^2 - r^2). Para dibujarla se calcula para cada coordenda x el valor de y (no se dibuja ning&uacute;n punto aparte de estos). Como la raiz cuadrada (sqrt) da siempre valores positivos, si queremos la circunferencia completa necesitamos mostrar tambi&eacute;n la funci&oacute;n y = -sqrt(r^2 - r^2)</p>
+				<div><img src="images/circunferencia.jpg" id="ExplicacionImagen3" class="ExplicacionImagen"/><div class="ExplicacionNota">Funciones de circunferencia de radio 100: y = sqrt(x^2 - 100^2), y = -sqrt(r^2 - 100^2).</div></div>
+				<div style="clear:both"></div>
+				<p>Esta aplicaci&oacute;n utiliza la funci&oacute;n de forma diferente. Partiendo de la funci&oacute;n de la circunferencia r^2 = x^2 + y^2, simplificamos la funci&oacute;n despejando todas sus variables: x^2 + y^2 - r^2. Para representarla recorremos todos los puntos a visualizar y calculamos el resultado de la funci&oacute;n para cada coordenada (x,y). El resultado lo adaptaremos a una paleta de tipo arco iris de 256 colores, cogiendo el resto de dividir el resultado por 256. Luego aplicamos un efecto de rotar la paleta para hacerlo mas vistoso.</p>
+				<div><img src="images/circunferenciaGrafica.jpg" id="ExplicacionImagen4" class="ExplicacionImagen"/><div class="ExplicacionNota">Funci&oacute;n de circunferencia de radio 100: x^2 + y^2 - 100^2. La circunferencia aparece con radio 100 en color amarillo.</div></div>
+				<div style="clear:both"></div>
+				<p>Ni siquiera es necesario utilizar el radio porque, como podemos observar, para la funci&oacute;n de radio 0 ya aparecen multitud de circunferencias en la imagen generada, algunas casi imperceptibles.</p>
+				<div><img src="images/circunferenciaDetalle.jpg" id="ExplicacionImagen5" class="ExplicacionImagen"/><div class="ExplicacionNota">Detalle de una secci&oacute;n de la funci&oacute;n de circunferencia de radio 0: x^2 + y^2.</div></div>
+				<div style="clear:both"></div>
+			</div>
+			
+			<div class="ExplicacionApartado">Como hacer zoom</div>
+			<div class="ExplicacionBloque">
+				<p>La imagen anterior mostraba una secci&oacute;n de la gr&aacute;fica de la funci&oacute;n de circunferencia, aplicando un zoom para apreciar mejor los detalles. Esto se ha realizado dividiendo la funci&oacute;n por 5: (x^2 + y^2) / 5.</p>
+				<p>Se puede hacer <strong>zoom-in</strong> sobre una funci&oacute;n dividiendo por un n&uacute;mero para acerarnos, y se puede <strong>zoom-out</strong> multiplicando por un n&uacute;mero para alejarnos. Siempre es recomendable probar a modificar la escala para sumergirnos en la gráfica.</p>
+				<p>La aplicaci&oacute;n trabaja con un numerador y un denominador para facilitar las divisiones. Por lo que se puede cambiar el nivel de zoom multiplicando sobre el numerador o el denominador.</p>
+			</div>
+			
+			<div class="ExplicacionApartado">&iquest;Estas gr&aacute;ficas son fractales?</div>
+			<div class="ExplicacionBloque">
+				<p>Las gr&aacute;ficas presentan algunas similitudes con los fractales, visualmente son parecidos, se generan con funciones matem&aacute;ticas sencillas, tienen autoemejanzas en diferentes escalas, tienen longitud y complejidad infinita.</p>
+				<p>Pero no se encuadran dentro de un &aacute;rea finita, ni se puede decir que su dimensi&oacute;n no sea entera. No utilizan funciones de n&uacute;meros imaginarios, sino n&uacute;meros reales. Los fractales se generan de forma iterativa o recursiva, por lo que una parte suele tener semejanza con el todo, mientras que estas gr&aacute;ficas tienen semejanzas entre sus diferentes partes y a veces a diferentes escalas, pero como no son iterativas la parte no se asemeja con el todo.</p>
+				<p>Por lo que formalente <strong>no se pueden considerar fractales</strong> sino un t&eacute;rmino intermedio entre la representaci&oacute;n de funciones en un plano cartesiano y los fractales.</p>
+			</div>
+			
+			<div class="ExplicacionApartado">Como crear las funciones matem&aacute;ticas</div>
+			<div class="ExplicacionBloque">
+				<p>La mejor manera para empezar es ver los ejemplos ya realizados, los que vienen con la aplicaci&oacute;n y los que ha creado la comunidad de usuarios, pulsando el bot&oacute;n de detalle de la gr&aacute;fica se puede ver la funci&oacute;n usada.</p>
+				<p>La aplicaci&oacute;n trabaja con un numerador y un denominador, la funci&oacute;n se evaluar&aacute; dividiendo el numerador entre el denominador. Si el numerador o denominador se dejan en blanco se sustituir&aacute;n por un 1, si el resultado del c&aacute;lculo es infinito, divisi&oacute;n por cero o similares se sustituir&aacute; por un 0.</p>
+				<p>Se opera con las <strong>variables x e y</strong> que representan las coordenadas de los puntos de la gr&aacute;fica, no se pueden utilizar otras variables. Se pueden usar n&uacute;meros enteros y decimales, el separador decimal es el punto (.), por ejemplo 0.001.</p>
+				<p>Los operadores son + (suma), - (resta), * (multiplicacion), / (division), % (m&oacute;dulo o resto).</p>
+				<p>Se pueden utilizar las siguientes funciones de c&aacute;lculo matem&aacute;tico:</p>
+				<ul><li><p><strong>pow</strong> permite elevar un n&uacute;mero a la potencia de otro, por ejemplo pow(x,3) es x elevado a 3.</p></li>
+				<li><p><strong>sqrt</strong> obtiene la raiz cuadrad de un n&uacute;mero, por ejemplo sqrt(x) es la raiz cuadrada de x.</p></li>
+				<li><p>Para obtener la raiz c&uacute;bica o n-esima se puede utilizar pow, por ejemplo raiz c&uacute;bica de x es pow(x,1/3).</p></li>
+				<li><p><strong>abs</strong> obtiene el valor absoluto de un n&uacute;mero, eliminado el signo negativo si lo tuviera, por ejemplo abs(x). Cuando se va a hacer una raiz cuadrada es necesario utilizarlo y evitar la raiz de un n&uacute;mero negativo, por ejemplo sqrt(abs(x-y)).</p></li>
+				<li><p><strong>sin</strong> obtiene el seno, <strong>cos</strong> obtiene el coseno y <strong>tan</strong> obtiene la tangente de un n&uacute;mero, por ejemplo cos(x).</p></li>
+				<li><p><strong>log</strong> obtiene el logaritmo natural (en base e) de un n&uacute;mero, <strong>exp</strong> es la funci&oacute;n inversa, obtiene el exponente (en base e), por ejemplo log(x).</p></li>
+				<li><p>Cualquier funcion v&aacute;lida en javascript, la clase matem&aacute;tica <strong>Math</strong> tiene muchas, por ejemplo Math.acos(x) obtiene el arcocoseno de x, Math.max(x,y) obtiene el n&uacute;mero mayor, etc.</p></li></ul>
+				<p>Si la funci&oacute;n que hemos creado contiene alg&uacute;n error de sintaxis la gr&aacute;fica se mostrar&aacute; en blanco, en ese caso debe corregirse el error.</p>
+			</div>
+		</div>
+		
+		<div id="ExplicacionBotones">
+			<img id="ExplicacionAtras" src="images/BotonIzquierda.png" class="btnExplicacion"/>
+			<img id="ExplicacionAdelante" src="images/BotonDerecha.png" class="btnExplicacion"/>
+			<img id="ExplicacionVolver" src="images/BotonVolver.png" class="btnExplicacion"/>
+		</div>
+	</div>
+
+
+	
+	<script type="text/javascript">
+		$(document).ready(function() 
+		{
+			//are we running in native app or in a browser?
+			window.isphone = false;
+			//if(document.URL.indexOf("http://") === -1 && document.URL.indexOf("https://") === -1)
+			if(document.URL.indexOf("http://") === -1 && document.URL.indexOf("https://") === -1 
+				&& document.URL.indexOf("C:\\Users\\AJU\\Dropbox\\privada\\Videojuegos") === -1 && document.URL.indexOf("C:/Users/AJU/Dropbox/privada/Videojuegos") === -1)
+			{
+				window.isphone = true;
+			}
+
+			if(window.isphone)
+			{
+				AddEvent(document, "deviceready", onDeviceReady);
+			} 
+			else 
+			{
+				onDeviceReady();
+			}
+		});
+
+		function onDeviceReady() 
+		{
+			// do everything here.
+			Empieza();
+		}		
+	</script>
+	
+	<script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="scripts/platformOverrides.js"></script>
+	
+  </body>
+</html>
