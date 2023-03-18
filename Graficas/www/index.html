@@ -278,7 +278,7 @@
 			window.isphone = false;
 			//if(document.URL.indexOf("http://") === -1 && document.URL.indexOf("https://") === -1)
 			if(document.URL.indexOf("http://") === -1 && document.URL.indexOf("https://") === -1 
-				&& document.URL.indexOf("C:\\Users\\AJU\\Dropbox\\privada\\Videojuegos") === -1 && document.URL.indexOf("C:/Users/AJU/Dropbox/privada/Videojuegos") === -1)
+				&& document.URL.indexOf("C:\\") === -1 && document.URL.indexOf("C:/") === -1)
 			{
 				window.isphone = true;
 			}
@@ -300,7 +300,7 @@
 		}		
 	</script>
 	
-	<script type="text/javascript" src="cordova.js"></script>
+	<!-- <script type="text/javascript" src="cordova.js"></script> -->
     <script type="text/javascript" src="scripts/platformOverrides.js"></script>
 	
   </body>
